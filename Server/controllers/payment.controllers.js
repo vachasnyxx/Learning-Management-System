@@ -14,7 +14,7 @@ export const getRaZorpayApikey =asyncHandler(async(req, res, next)=>{
     try {
         res.status(200).json({
             success:true,
-            message:'Razarpay API key ',
+            message:'Razorpay API key ',
             key:process.env.RAZORPAY_KEY_ID
         });
     } catch (error) {
@@ -34,7 +34,7 @@ export const buySubscription =asyncHandler(async(req, res, next)=>{
         const user =await User.findById(id);
         if(!user){
             return next(
-                new AppError("Unauthorize , please login")
+                new AppError("Unauthorized, please login")
             )
         }
         if(user.role==='ADMIN'){
@@ -95,7 +95,7 @@ export const verifySubscription =asyncHandler(async(req, res, next)=>{
         const user =await User.findById(id);
         if(!user){
             return next(
-                new AppError("Unauthorize , please login")
+                new AppError("Unauthorized, please login")
             )
         }
         const subscriptionId= user.subscription.id;
@@ -124,7 +124,7 @@ export const verifySubscription =asyncHandler(async(req, res, next)=>{
         await user.save();
         res.status(200).json({
             success:true,
-            message:'Payment verified Sucessfully ',
+            message:'Payment verified Successfully ',
         });
     } catch (error) {
         return next(
@@ -145,7 +145,7 @@ export const cancelSubscription =asyncHandler(async(req, res, next)=>{
         const user = await User.findById(id);
         if(!user){
             return next(
-                new AppError("Unauthorize , please login")
+                new AppError("Unauthorized, please login")
             )
         }
         if(user.role==='ADMIN'){
@@ -164,7 +164,7 @@ export const cancelSubscription =asyncHandler(async(req, res, next)=>{
 
         res.status(200).json({
             success:true,
-            message:'UnSubscribed  Sucessfully ',
+            message:'UnSubscribed  Successfully ',
         });
     } catch (error) {
         return next(

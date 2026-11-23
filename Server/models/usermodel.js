@@ -11,8 +11,8 @@ const userSchema= new Schema({
     fullName: {
         type:'String',
         required:[true, 'Name is required'],
-        minLength:[5,'Name must be 5 charchter'],
-        maxLength:[50, 'Name should be less then 50 character '],
+        minLength:[5, 'Name must be at least 5 characters'],
+        maxLength:[50, 'Name should be less than 50 characters'],
         lowercase:true,
         trim:true,
     },
@@ -30,7 +30,7 @@ const userSchema= new Schema({
     password:{
         type: 'String',
         required:[true, 'Password is required'],
-        minLength:[8,'Password must be 8 charchter'],
+        minLength:[8, 'Password must be at least 8 characters'],
         select:false
     },
     subscription: {

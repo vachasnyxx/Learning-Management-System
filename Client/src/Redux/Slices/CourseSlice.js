@@ -12,7 +12,7 @@ export const getAllCourse = createAsyncThunk("/course/get", async ()=>{
         const response=axiosInstance.get("/course");
         toast.promise(response, {
             loading:"loading course data ...",
-            success:"courses loaded sucessfully",
+            success:"courses loaded successfully",
             error:"Failed to get the courses",
         });
         return (await response).data.courses;
@@ -33,7 +33,7 @@ export const createNewCourse= createAsyncThunk("/course/create", async(data)=>{
         const response=axiosInstance.post("/course", fromData);
         toast.promise(response,{
             loading:"Creating new course",
-            success:"Course created sucessfully",
+            success:"Course created successfully",
             error:"Failed to create course"
         });
 
@@ -49,7 +49,7 @@ export const deleteCourse = createAsyncThunk("/course/delete", async (id)=>{
         const response=axiosInstance.delete(`/course/${id}`);
         toast.promise(response, {
             loading:"deleting course data ...",
-            success:"course deleted sucessfully",
+            success:"course deleted successfully",
             error:"Failed to delete the course",
         });
         return (await response).data;

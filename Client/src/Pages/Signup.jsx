@@ -67,7 +67,7 @@ function Signup(){
 
         //email vaildtaion 
         if (!isEmail(signupData.email)) {
-            toast.error("Invaild email id  ")
+            toast.error("Invalid email id  ")
             return;
         }
 
@@ -102,7 +102,7 @@ function Signup(){
         <HomeLayout>
                 <div className=" flex items-center justify-center h-[90vh]">
                     <form  noValidate onSubmit={createNewAccount} className="flex flex-col   justify-center gap-3  rounded-lg text-white p-4 w-80  shadow-[0_0_10px_black] ">
-                        <h1 className="text-center text-2xl font-bold">Registion Page</h1>
+                        <h1 className="text-center text-2xl font-bold">Registration Page</h1>
                         <label htmlFor="image_uploads" className=" cursor-pointer">
                             {prevImage ? (
                                < img  className="w-24 h-24 rounded-full m-auto" src={prevImage}  />

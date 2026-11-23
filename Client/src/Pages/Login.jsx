@@ -83,7 +83,7 @@ function Login(){
 
                         <Link to={"/forget-password"}>
                             <p className="text-center link text-accent cursor-pointer">
-                            Forget Password
+                            Forgot Password
                             </p>
                         </Link>
           

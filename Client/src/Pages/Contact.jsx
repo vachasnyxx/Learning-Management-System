@@ -37,7 +37,7 @@ function Contact(){
             const response = axiosInstance.post("/contact",userInput)
             toast.promise(response,{
                 loading:"Submitting your message....",
-                success:"Form submitted sucessfully",
+                success:"Form submitted successfully",
                 error:"Failed to submit the from"
             })
             const contactResponse = await response;

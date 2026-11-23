@@ -31,7 +31,7 @@ export const getAllCourse = asyncHandler(async (req, res, next)=>{
 
         res.status(200).json({
             success:true,
-            message:'All course',
+            message:'All courses',
             courses: safeCourses,
         })
     } catch (error) {

@@ -25,7 +25,7 @@ function ForgetPassword(){
     
         // email validation using regex
        if (!isEmail(data.email)) {
-            toast.error("Invaild email id  ")
+            toast.error("Invalid email id  ")
             return;
         }
     
@@ -47,7 +47,7 @@ function ForgetPassword(){
                     onSubmit={handleFormSubmit}
                     className="flex flex-col justify-center gap-6 rounded-lg p-4 text-white w-80 h-[26rem] shadow-[0_0_10px_black]"
                     >
-                    <h1 className="text-center text-2xl font-bold">Forget Password</h1>
+                    <h1 className="text-center text-2xl font-bold">Forgot Password</h1>
 
                     <p>
                         Enter your registered email, we will send you a verification link on
