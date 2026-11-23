@@ -427,7 +427,7 @@ async function callGemini(course, count, difficulty) {
     if (!apiKey) return null;
 
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 25000);
+    const timer = setTimeout(() => controller.abort(), 60000);
 
     try {
         const response = await fetch(
@@ -467,7 +467,7 @@ async function callOpenAI(course, count, difficulty) {
     if (!apiKey) return null;
 
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 25000);
+    const timer = setTimeout(() => controller.abort(), 60000);
 
     try {
         const response = await fetch("https://api.openai.com/v1/chat/completions", {
