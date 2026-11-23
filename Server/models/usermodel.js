@@ -50,6 +50,10 @@ const userSchema= new Schema({
         enum:['USER','TEACHER','ADMIN'],
         default:'USER'
     },
+    isBlocked: {
+        type: Boolean,
+        default: false,
+    },
     forgotPasswordToken:String ,
     forgotPasswordExpiry: Date
 },{

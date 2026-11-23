@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { register,login,logout,getProfile ,forgotPassword,resetPassword, changePassword, updateUser} from "../controllers/user.controller.js";
-import { isLoggedIn } from "../middlewares/auth.middlewares.js";
+import { register,login,logout,getProfile ,forgotPassword,resetPassword, changePassword, updateUser, getAllUsers, updateUserRole, toggleBlockUser } from "../controllers/user.controller.js";
+import { isLoggedIn, authorizedRoles } from "../middlewares/auth.middlewares.js";
 import upload from "../middlewares/multer.middleware.js";
 
 const router = Router();
@@ -55,5 +55,26 @@ router.post('/change-password', isLoggedIn, changePassword)
  * @access Private, Authenticated users only
  */
 router.put('/update', isLoggedIn,upload.single("avatar"),updateUser)
+
+/**
+ * @route GET /admin/users
+ * @description Admin: list all users
+ * @access Admin only
+ */
+router.get('/admin/users', isLoggedIn, authorizedRoles('ADMIN'), getAllUsers);
+
+/**
+ * @route PUT /admin/users/:id/role
+ * @description Admin: change a user's role
+ * @access Admin only
+ */
+router.put('/admin/users/:id/role', isLoggedIn, authorizedRoles('ADMIN'), updateUserRole);
+
+/**
+ * @route PUT /admin/users/:id/block
+ * @description Admin: block or unblock a user
+ * @access Admin only
+ */
+router.put('/admin/users/:id/block', isLoggedIn, authorizedRoles('ADMIN'), toggleBlockUser);
 
 export default router;

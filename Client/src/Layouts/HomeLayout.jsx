@@ -68,6 +68,11 @@ function HomeLayout({ children }) {
                                 <Link to="/admin/deshboard" onClick={closeDrawer}>Admin Dashboard</Link>
                             </li>
                         )}
+                        {isLoggedIn && role === "ADMIN" && (
+                            <li>
+                                <Link to="/admin/users" onClick={closeDrawer}>Manage Users</Link>
+                            </li>
+                        )}
                         {isLoggedIn && role === "TEACHER" && (
                             <li>
                                 <Link to="/teacher/deshboard" onClick={closeDrawer}>Teacher Dashboard</Link>

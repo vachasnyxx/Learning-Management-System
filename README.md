@@ -40,6 +40,10 @@ This project was developed as part of our **5th Semester BCA (Artificial Intelli
 - Forgot password / reset password via email (**Nodemailer**)
 - Change password from the profile page
 - Role-based route protection on both frontend and backend
+- **Public signup creates Student accounts only** — Teacher/Admin accounts are
+  promoted by an administrator through the User Management panel
+- **Account blocking** — admins can block or unblock any user; blocked users
+  cannot log in
 
 ### 👥 Three-Role System
 

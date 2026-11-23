@@ -17,6 +17,7 @@ import AddCourseLectures from './Pages/Deshboard/AddLectures.jsx'
 import AdminDeshboard from './Pages/Deshboard/AdminDeshboard.jsx'
 import Displaylectures from './Pages/Deshboard/DisplayLectures.jsx'
 import ManageModules from './Pages/Deshboard/ManageModules.jsx'
+import ManageUsers from './Pages/Deshboard/ManageUsers.jsx'
 import TeacherDeshboard from './Pages/Deshboard/TeacherDeshboard.jsx'
 import HomePage from './Pages/HomePage.jsx'
 import Login from './Pages/Login.jsx'
@@ -56,6 +57,7 @@ function App() {
 
           <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>}>
            <Route path='/admin/deshboard' element={<AdminDeshboard/>}></Route>
+           <Route path='/admin/users' element={<ManageUsers/>}></Route>
           </Route>
 
           <Route element={<RequireAuth allowedRoles={["TEACHER"]}/>}>

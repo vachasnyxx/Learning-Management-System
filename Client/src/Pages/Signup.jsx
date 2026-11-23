@@ -160,19 +160,9 @@ function Signup(){
                                 value={signupData.password}
                              />
                         </div>
-                        <div className="flex flex-col gap-1">
-                            <label htmlFor="role" className="font-semibold">Register as</label>
-                            <select
-                                name="role"
-                                id="role"
-                                className="bg-transparent px-2 py-1 border text-white"
-                                value={signupData.role}
-                                onChange={handleUserInput}
-                            >
-                                <option value="USER" className="text-black">Student</option>
-                                <option value="TEACHER" className="text-black">Teacher</option>
-                            </select>
-                        </div>
+                        <p className="text-xs text-gray-400 text-center">
+                            New accounts are created as students. Teachers and admins are managed by the administrator.
+                        </p>
                         <button  type="submit" className=" mt-2 bg-yellow-600 hover:bg-yellow-500 py-2 font-semibold text-lg cursor-pointer transition-all ease-in-out duration-300  rounded-sm">
                                 Create Account
                         </button>

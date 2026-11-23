@@ -17,9 +17,10 @@ const cookieOptions = {
  * @REGISTER - Registers a new user
  */
 export const register = asyncHandler(async (req, res, next) => {
-    const { fullName, email, password, role } = req.body;
-    const allowedRoles = ['USER', 'TEACHER'];
-    const userRole = allowedRoles.includes(role) ? role : 'USER';
+    const { fullName, email, password } = req.body;
+    // Public registration is only for students. Teacher/Admin accounts are
+    // created or promoted by an administrator through the admin panel.
+    const userRole = 'USER';
     if (!fullName || !email || !password) {
         return next(new AppError("All fields are required", 400));
     }
@@ -88,6 +89,10 @@ export const login = asyncHandler(async (req, res, next) => {
 
         if (!(user && (await user.comparePassword(password)))) {
             return next(new AppError("Email or password does not match", 400));
+        }
+
+        if (user.isBlocked) {
+            return next(new AppError("Your account has been blocked. Please contact an administrator.", 403));
         }
 
         const token = await user.generateJWTToken();
@@ -262,5 +267,73 @@ export const updateUser = asyncHandler(async (req, res, next) => {
     res.status(200).json({
         success: true,
         message: "User details updated successfully",
+    });
+});
+
+/**
+ * @GET_ALL_USERS - Admin only: list all users
+ */
+export const getAllUsers = asyncHandler(async (req, res, next) => {
+    const users = await User.find({}).select("-password").sort({ createdAt: -1 });
+    res.status(200).json({
+        success: true,
+        message: "All users fetched successfully",
+        users,
+    });
+});
+
+/**
+ * @UPDATE_USER_ROLE - Admin only: change a user's role
+ */
+export const updateUserRole = asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    if (!["USER", "TEACHER", "ADMIN"].includes(role)) {
+        return next(new AppError("Invalid role", 400));
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+        return next(new AppError("User not found", 404));
+    }
+
+    // Prevent an admin from demoting themselves
+    if (req.user.id === id && role !== "ADMIN") {
+        return next(new AppError("You cannot change your own admin role", 400));
+    }
+
+    user.role = role;
+    await user.save();
+
+    res.status(200).json({
+        success: true,
+        message: `User role updated to ${role}`,
+        user,
+    });
+});
+
+/**
+ * @TOGGLE_BLOCK_USER - Admin only: block or unblock a user
+ */
+export const toggleBlockUser = asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+    if (!user) {
+        return next(new AppError("User not found", 404));
+    }
+
+    if (req.user.id === id) {
+        return next(new AppError("You cannot block your own account", 400));
+    }
+
+    user.isBlocked = !user.isBlocked;
+    await user.save();
+
+    res.status(200).json({
+        success: true,
+        message: user.isBlocked ? "User blocked successfully" : "User unblocked successfully",
+        user,
     });
 });

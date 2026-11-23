@@ -141,6 +141,14 @@ function AdminDeshboard(){
                         >
                         Create new course
                         </button>
+                        <button
+                        onClick={() => {
+                            navigate("/admin/users");
+                        }}
+                        className="w-fit bg-purple-500 hover:bg-purple-600 transition-all ease-in-out duration-300 rounded py-2 px-2 sm:px-4 font-semibold sm:text-lg cursor-pointer"
+                        >
+                        Manage users
+                        </button>
                     </div>
 
                     <div className=" overflow-x-auto w-full">

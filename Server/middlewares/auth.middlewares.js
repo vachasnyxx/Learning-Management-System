@@ -10,7 +10,16 @@ const isLoggedIn = async (req, res, next)=>{
     }
     try {
         const userDetails = await jwt.verify(token, process.env.JWT_SECRET);
-        req.user = userDetails;
+        // Check if the account has been blocked by an administrator
+        const dbUser = await User.findById(userDetails.id).select('isBlocked role');
+        if (!dbUser) {
+            return next(new AppError('User no longer exists', 401));
+        }
+        if (dbUser.isBlocked) {
+            return next(new AppError('Your account has been blocked. Please contact an administrator.', 403));
+        }
+        // Keep the role fresh in case an admin changed it
+        req.user = { ...userDetails, role: dbUser.role, isBlocked: dbUser.isBlocked };
         next();
     } catch (e) {
         return next(new AppError('Invalid or expired token, please login again', 401));
