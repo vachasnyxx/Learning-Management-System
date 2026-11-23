@@ -54,6 +54,18 @@ const userSchema= new Schema({
         type: Boolean,
         default: false,
     },
+    completedCourses: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Course',
+    }],
+    passedQuizzes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Course',
+    }],
+    totalScore: {
+        type: Number,
+        default: 0,
+    },
     forgotPasswordToken:String ,
     forgotPasswordExpiry: Date
 },{

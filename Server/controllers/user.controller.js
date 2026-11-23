@@ -337,3 +337,62 @@ export const toggleBlockUser = asyncHandler(async (req, res, next) => {
         user,
     });
 });
+
+/**
+ * @COMPLETE_COURSE - Student: marks a course as completed (certificate earned)
+ */
+export const completeCourse = asyncHandler(async (req, res, next) => {
+    const { courseId } = req.body;
+    if (!courseId) {
+        return next(new AppError("Course ID is required", 400));
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+        return next(new AppError("User not found", 404));
+    }
+
+    const already = (user.completedCourses || []).some((id) => id.toString() === courseId.toString());
+    if (!already) {
+        user.completedCourses.push(courseId);
+        await user.save();
+    }
+
+    res.status(200).json({
+        success: true,
+        message: already ? "Course already completed" : "Course marked as completed",
+        completedCourses: user.completedCourses,
+    });
+});
+
+/**
+ * @GET_LEADERBOARD - Top students by completed courses and quiz score
+ */
+export const getLeaderboard = asyncHandler(async (req, res, next) => {
+    const users = await User.find({ role: "USER" })
+        .select("fullName avatar completedCourses totalScore")
+        .sort({ totalScore: -1 })
+        .limit(20)
+        .lean();
+
+    const ranked = users
+        .map((u) => ({
+            _id: u._id,
+            fullName: u.fullName,
+            avatar: u.avatar,
+            completedCount: (u.completedCourses || []).length,
+            totalScore: u.totalScore || 0,
+        }))
+        .sort((a, b) => {
+            if (b.completedCount !== a.completedCount) return b.completedCount - a.completedCount;
+            return b.totalScore - a.totalScore;
+        })
+        .slice(0, 10)
+        .map((u, index) => ({ ...u, rank: index + 1 }));
+
+    res.status(200).json({
+        success: true,
+        message: "Leaderboard fetched successfully",
+        leaderboard: ranked,
+    });
+});

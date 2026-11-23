@@ -11,7 +11,9 @@ import CourseDescripition from './Pages/Course/CourseDescription.jsx'
 import CourseList from './Pages/Course/CourseList.jsx'
 import CreateCourse from './Pages/Course/CreateCourse.jsx'
 import EditCourse from './Pages/Course/EditCourse.jsx'
+import Leaderboard from './Pages/Course/Leaderboard.jsx'
 import Quiz from './Pages/Course/Quiz.jsx'
+import Resources from './Pages/Course/Resources.jsx'
 import Denied from './Pages/Denied.jsx'
 import AddCourseLectures from './Pages/Deshboard/AddLectures.jsx'
 import AdminDeshboard from './Pages/Deshboard/AdminDeshboard.jsx'
@@ -66,6 +68,8 @@ function App() {
 
           <Route element={<RequireAuth allowedRoles={["ADMIN","TEACHER","USER"]}/>}>
             <Route path='/course/quiz' element={<Quiz/>}></Route>
+            <Route path='/leaderboard' element={<Leaderboard/>}></Route>
+            <Route path='/resources' element={<Resources/>}></Route>
           </Route>
 
           <Route element={<RequireAuth allowedRoles={["ADMIN", 'USER']}/>}>

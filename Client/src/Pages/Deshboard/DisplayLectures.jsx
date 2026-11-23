@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CourseThumbnail from "../../Compontents/CourseThumbnail";
 import HomeLayout from "../../Layouts/HomeLayout";
 import { deleteCourseLecture, getCourseLectures } from "../../Redux/Slices/LectureSlice";
+import { completeCourse } from "../../Redux/Slices/AuthSlice";
 
 function Displaylectures(){
     const navigate = useNavigate();
@@ -102,6 +103,8 @@ function Displaylectures(){
                 localStorage.setItem("completedCourses", JSON.stringify(completedCourses));
             }
         } catch (e) {}
+        // Record completion on the backend for the leaderboard
+        if (courseId) dispatch(completeCourse(courseId));
         navigate("/certificate", { state: { course: courseInfo, user: data } });
     }
 

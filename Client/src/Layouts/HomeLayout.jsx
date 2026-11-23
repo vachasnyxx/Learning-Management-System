@@ -87,6 +87,12 @@ function HomeLayout({ children }) {
                             <Link to="/courses" onClick={closeDrawer}>All Courses</Link>
                         </li>
                         <li>
+                            <Link to="/resources" onClick={closeDrawer}>Resources</Link>
+                        </li>
+                        <li>
+                            <Link to="/leaderboard" onClick={closeDrawer}>Leaderboard</Link>
+                        </li>
+                        <li>
                             <Link to="/contact" onClick={closeDrawer}>Contact Us</Link>
                         </li>
                         <li>

@@ -3,6 +3,7 @@ import fs from 'fs/promises'
 
 import asyncHandler from '../middlewares/asyncHAndler.middleware.js';
 import Course from "../models/course.model.js"
+import User from "../models/usermodel.js"
 import AppError from "../utils/error.util.js";
 import { generateQuiz } from '../utils/quizGenerator.js';
 
@@ -625,6 +626,25 @@ export const submitCourseQuiz = asyncHandler(async (req, res, next) => {
         const score = Math.round((correct / total) * 100);
         const passingScore = quiz.passingScore || 60;
         const passed = score >= passingScore;
+
+        // Update the student's leaderboard stats when they pass (only once per course)
+        if (passed && req.user?.id) {
+            try {
+                const student = await User.findById(req.user.id);
+                if (student) {
+                    const alreadyPassed = (student.passedQuizzes || []).some(
+                        (pid) => pid.toString() === req.params.id
+                    );
+                    if (!alreadyPassed) {
+                        student.passedQuizzes.push(req.params.id);
+                        student.totalScore = (student.totalScore || 0) + score;
+                        await student.save();
+                    }
+                }
+            } catch (e) {
+                // leaderboard update is best-effort; never fail the quiz submission
+            }
+        }
 
         res.status(200).json({
             success: true,
