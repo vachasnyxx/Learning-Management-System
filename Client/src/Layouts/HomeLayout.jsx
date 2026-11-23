@@ -104,6 +104,11 @@ function HomeLayout({ children }) {
                                 <Link to="/user/profile" onClick={closeDrawer}>My Profile</Link>
                             </li>
                         )}
+                        {isLoggedIn && (
+                            <li>
+                                <Link to="/user/my-courses" onClick={closeDrawer}>My Courses</Link>
+                            </li>
+                        )}
 
                         {!isLoggedIn && (
                             <li className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%]">

@@ -62,6 +62,10 @@ const userSchema= new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Course',
     }],
+    enrolledCourses: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Course',
+    }],
     totalScore: {
         type: Number,
         default: 0,

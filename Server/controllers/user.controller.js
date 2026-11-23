@@ -396,3 +396,46 @@ export const getLeaderboard = asyncHandler(async (req, res, next) => {
         leaderboard: ranked,
     });
 });
+
+/**
+ * @ENROLL_COURSE - Student: enroll in a course
+ */
+export const enrollCourse = asyncHandler(async (req, res, next) => {
+    const { courseId } = req.body;
+    if (!courseId) {
+        return next(new AppError("Course ID is required", 400));
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+        return next(new AppError("User not found", 404));
+    }
+
+    const already = (user.enrolledCourses || []).some((id) => id.toString() === courseId.toString());
+    if (!already) {
+        user.enrolledCourses.push(courseId);
+        await user.save();
+    }
+
+    res.status(200).json({
+        success: true,
+        message: already ? "Already enrolled in this course" : "Enrolled successfully",
+        enrolledCourses: user.enrolledCourses,
+    });
+});
+
+/**
+ * @GET_MY_COURSES - Student: list enrolled courses
+ */
+export const getMyCourses = asyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.user.id).populate("enrolledCourses");
+    if (!user) {
+        return next(new AppError("User not found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Enrolled courses fetched successfully",
+        courses: user.enrolledCourses || [],
+    });
+});

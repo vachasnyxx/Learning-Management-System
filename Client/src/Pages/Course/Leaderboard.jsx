@@ -66,7 +66,7 @@ function Leaderboard() {
                                             {style ? style.label : u.rank}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="font-semibold truncate">{u.fullName}</p>
+                                            <p className="font-semibold truncate capitalize">{u.fullName}</p>
                                             <p className="text-xs text-gray-400">
                                                 {u.completedCount} course{u.completedCount === 1 ? "" : "s"} completed
                                             </p>

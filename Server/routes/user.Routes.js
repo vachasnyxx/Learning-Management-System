@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { register,login,logout,getProfile ,forgotPassword,resetPassword, changePassword, updateUser, getAllUsers, updateUserRole, toggleBlockUser, completeCourse, getLeaderboard } from "../controllers/user.controller.js";
+import { register,login,logout,getProfile ,forgotPassword,resetPassword, changePassword, updateUser, getAllUsers, updateUserRole, toggleBlockUser, completeCourse, getLeaderboard, enrollCourse, getMyCourses } from "../controllers/user.controller.js";
 import { isLoggedIn, authorizedRoles } from "../middlewares/auth.middlewares.js";
 import upload from "../middlewares/multer.middleware.js";
 
@@ -83,6 +83,20 @@ router.put('/admin/users/:id/block', isLoggedIn, authorizedRoles('ADMIN'), toggl
  * @access Private
  */
 router.post('/complete-course', isLoggedIn, completeCourse);
+
+/**
+ * @route POST /user/enroll
+ * @description Student: enroll in a course
+ * @access Private
+ */
+router.post('/enroll', isLoggedIn, enrollCourse);
+
+/**
+ * @route GET /user/my-courses
+ * @description Student: list enrolled courses
+ * @access Private
+ */
+router.get('/my-courses', isLoggedIn, getMyCourses);
 
 /**
  * @route GET /user/leaderboard

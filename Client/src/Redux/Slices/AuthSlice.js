@@ -101,6 +101,25 @@ export const completeCourse = createAsyncThunk("/user/complete-course", async (c
     }
 });
 
+export const enrollCourse = createAsyncThunk("/user/enroll", async (courseId) => {
+    try {
+        const res = await axiosInstance.post("user/enroll", { courseId });
+        toast.success(res.data?.message || "Enrolled successfully");
+        return (await res).data;
+    } catch (error) {
+        toast.error(error?.response?.data?.message || "Failed to enroll");
+    }
+});
+
+export const getMyCourses = createAsyncThunk("/user/my-courses", async () => {
+    try {
+        const res = await axiosInstance.get("user/my-courses");
+        return (await res).data;
+    } catch (error) {
+        toast.error(error?.response?.data?.message);
+    }
+});
+
 export const getLeaderboard = createAsyncThunk("/user/leaderboard", async () => {
     try {
         const res = await axiosInstance.get("user/leaderboard");

@@ -1,16 +1,25 @@
 
-import { useSelector } from "react-redux";
-import {  useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import CourseThumbnail from "../../Compontents/CourseThumbnail";
 import HomeLayout from "../../Layouts/HomeLayout";
+import { enrollCourse } from "../../Redux/Slices/AuthSlice";
 
 function CourseDescripition() {
 
     const {state}=useLocation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     
     const {role, data}=useSelector((state)=>state.auth)
+
+    async function handleWatch() {
+        if (role === "USER" && data?.subscription?.status === "active") {
+            await dispatch(enrollCourse(state?._id));
+        }
+        navigate("/course/displaylecture", {state:{...state}});
+    }
 
     return(
         <HomeLayout>
@@ -51,7 +60,7 @@ function CourseDescripition() {
                                 <p className=" text-yellow-500 "> Course description:   </p>
                                 <p className=" lg:h-60">{state?.description}</p>
                                 {role==="ADMIN"||role==="TEACHER"||data?.subscription?.status=== "active"?(
-                                    <button onClick={()=>navigate("/course/displaylecture", {state:{...state}})} className=" bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300">
+                                    <button onClick={handleWatch} className=" bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300">
                                         Watch lectures
                                     </button>
                                 ):(
